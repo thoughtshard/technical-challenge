@@ -4,16 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Models\Book;
+use Illuminate\Http\JsonResponse;
 
 final class GetBookController
 {
     /**
-     * Handle the incoming request.
+     * @param string $uuid
+     * @return JsonResponse
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(string $uuid): JsonResponse
     {
-        return new Response('TODO: Implement this endpoint.');
+        $book = Book::where('uuid', $uuid)->first();
+
+        return new JsonResponse(
+            [
+                'book' => $book,
+            ],
+            200
+        );
     }
 }

@@ -4,14 +4,23 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\BookFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-final class Collector extends Model
+final class Book extends Model
 {
-    /** @use HasFactory<\Database\Factories\CollectorFactory> */
+    /** @use HasFactory<BookFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'uuid',
+        'title',
+        'isbn',
+        'collector_id',
+        'type',
+    ];
 
     /**
      * Get the attributes that should be cast.
@@ -27,10 +36,10 @@ final class Collector extends Model
     }
 
     /**
-     * @return HasMany<Book,Collector>
+     * @return BelongsTo<Collector, Book>
      */
-    public function Books(): HasMany
+    public function collector(): BelongsTo
     {
-        return $this->hasMany(Book::class);
+        return $this->belongsTo(Collector::class);
     }
 }
