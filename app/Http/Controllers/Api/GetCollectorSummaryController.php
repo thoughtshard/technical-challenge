@@ -18,7 +18,6 @@ final class GetCollectorSummaryController
     {
         $bookCollectionService = new BookCollectionService();
 
-        $bookCollectionService->mostRecent($collector, 'Technical');
         return new JsonResponse(
             [
                 'summary' => [
