@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('type');
             $table->timestamps();
             $table->string('isbn');
+
+            $table->index(['customer_id', 'type']);
         });
     }
 
