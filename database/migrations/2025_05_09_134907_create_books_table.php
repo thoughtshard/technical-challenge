@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('collector_id');
             $table->string('type');
             $table->timestamps();
-            $table->string('isbn');
+            $table->string('isbn')->nullable();
 
             $table->index(['customer_id', 'type']);
         });

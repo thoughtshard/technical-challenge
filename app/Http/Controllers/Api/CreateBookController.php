@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Client\IsbnClient;
 use App\Http\Requests\CreateBookRequest;
+use App\Jobs\ProcessBookIsbn;
 use App\Models\Book;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Ramsey\Uuid\Uuid;
 
 final class CreateBookController
 {
@@ -19,29 +17,16 @@ final class CreateBookController
      */
     public function __invoke(CreateBookRequest $request): JsonResponse
     {
-        $user = Auth::getUser();
-
         $params = $request->validated();
 
-        $uuidString = $params['uuid'] ?? null;
-
-        // Assumption: In a real use case, a separate password would be stored or a token created.
-        $isbnClient = new IsbnClient(
-            username: $user->email,
-            password: $user->password
-        );
-
-        $uuid = Uuid::fromString($uuidString);
-
-        $isbn = $isbnClient->get($uuid);
-
         $book = Book::create([
-            'uuid' => $uuidString,
+            'uuid' => $params['uuid'],
             'title' => $params['title'],
             'type' => $params['type'],
-            'isbn' => $isbn,
             'collector_id' => $params['collector_id'],
         ]);
+
+        ProcessBookIsbn::dispatch($book);
 
         return new JsonResponse(
             [

@@ -7,7 +7,7 @@ namespace App\Services;
 use App\Models\Book;
 use App\Models\Collector;
 
-Final class BookCollectionService
+final class BookCollectionService
 {
     /**
      * @param Collector $collector
