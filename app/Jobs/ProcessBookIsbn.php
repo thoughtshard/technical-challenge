@@ -46,6 +46,6 @@ final class ProcessBookIsbn implements ShouldQueue
             'isbn' => $isbn
         ]);
 
-        // TODO If this failed, it should inform someone.  A Slack callout, an email, something.
+        // If this failed, it should inform someone.  A Slack callout, an email, something.
     }
 }
